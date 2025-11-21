@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fancy Task Manager — Period Selector (Simple)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      
+      <img class="logo" src="logo.jpeg" alt="App Logo">
+      <div>
+        <h1>Fancy Task Manager</h1>
+        <div class="subtitle">Minimal view — only nav and period selector</div>
+      </div>
+    </div>
+
+
+    <div class="top-nav" role="navigation" aria-label="Main navigation">
+      <div class="nav-left" id="navLeft">
+        <button id="navDashboard" class="nav-button active" aria-pressed="true">Dashboard</button>
+        <button id="navAnalytics" class="nav-button" aria-pressed="false">Analytics</button>
+      </div>
+      <div class="small-muted">Choose period below</div>
+    </div>
+
+    
+    <div class="card" role="region" aria-label="Period selector">
+      <strong style="font-size:1.05rem">Choose a period</strong>
+      <div class="small-muted">This view exposes only Daily, Weekly and Monthly options.</div>
+
+      <div class="periods" id="periodsRow">
+        <button class="period-button active" data-period="daily">Daily</button>
+        <button class="period-button" data-period="weekly">Weekly</button>
+        <button class="period-button" data-period="monthly">Monthly</button>
+      </div>
+
+      <div class="small-muted" style="margin-top:12px">
+        Selected: <strong id="selectedLabel">Daily</strong>
+      </div>
+    </div>
+  </div>    
+  </body>
+  </html>
