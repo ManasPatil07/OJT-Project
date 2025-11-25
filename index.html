@@ -2,46 +2,102 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fancy Task Manager — Period Selector (Simple)</title>
-    <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fancy Task Manager Dashboard — Timeline & Due Dates</title>
+
+  <!-- D3 and Plotly -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
-    <div class="header">
-      
-      <img class="logo" src="logo.jpeg" alt="App Logo">
-      <div>
-        <h1>Fancy Task Manager</h1>
-        <div class="subtitle">Minimal view — only nav and period selector</div>
+    <h1>Task Manager</h1>
+    <div class="small-muted">Design your task with Task Up</div>
+
+    <!-- add task -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 style="margin:0">Add New Task</h3>
+        <div class="muted">Click task name to toggle complete</div>
+      </div>
+
+      <form id="task-form" class="form-row" onsubmit="return false;">
+        <input id="task-name" type="text" placeholder="Task description (e.g. Study JavaScript)" required />
+        <select id="task-type">
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+        </select>
+        <input id="task-date" type="date" title="Due date (optional)" />
+        <input id="task-time" type="time" title="Due time (optional — used for daily slots)" />
+        <button id="add-btn" class="btn">Add</button>
+      </form>
+      <div style="margin-top:10px" class="muted">Due date/time are optional — if provided they determine which timeline slot the task appears in.</div>
+    </div>
+
+    <!-- timeline + charts -->
+    <div class="card timeline-wrap">
+      <!-- timeline controls -->
+      <div class="timeline-controls" style="flex:0 0 360px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <strong>Timeline</strong>
+          <div>
+            <button class="period-btn active" data-period="daily">Daily</button>
+            <button class="period-btn" data-period="weekly">Weekly</button>
+            <button class="period-btn" data-period="monthly">Monthly</button>
+          </div>
+        </div>
+
+        <div class="slots" id="slotsArea" aria-live="polite"></div>
+
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button id="clear-filter" class="period-btn">Clear Filter</button>
+          <button id="jump-today" class="period-btn">Jump to Today</button>
+        </div>
+
+        <div style="margin-top:14px" class="muted">Click a slot to filter tasks for that slot. For weekly/monthly the slot is computed from the due date.</div>
+      </div>
+
+      <!-- charts -->
+      <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="card">
+          <h4 style="margin:0 0 8px 0">Overall Progress</h4>
+          <div id="overall-progress-card"><svg id="d3-progress-bar"></svg></div>
+        </div>
+
+        <div class="card">
+          <h4 style="margin:0 0 8px 0">Type Distribution</h4>
+          <div id="pie-chart-plot" style="height:220px;"></div>
+        </div>
+
+        <div class="card" style="grid-column:1 / -1">
+          <h4 style="margin:0 0 8px 0">Completion Rate by Type</h4>
+          <div id="bar-chart-plot" style="height:260px"></div>
+        </div>
       </div>
     </div>
 
-
-    <div class="top-nav" role="navigation" aria-label="Main navigation">
-      <div class="nav-left" id="navLeft">
-        <button id="navDashboard" class="nav-button active" aria-pressed="true">Dashboard</button>
-        <button id="navAnalytics" class="nav-button" aria-pressed="false">Analytics</button>
-      </div>
-      <div class="small-muted">Choose period below</div>
-    </div>
-
-    
-    <div class="card" role="region" aria-label="Period selector">
-      <strong style="font-size:1.05rem">Choose a period</strong>
-      <div class="small-muted">This view exposes only Daily, Weekly and Monthly options.</div>
-
-      <div class="periods" id="periodsRow">
-        <button class="period-button active" data-period="daily">Daily</button>
-        <button class="period-button" data-period="weekly">Weekly</button>
-        <button class="period-button" data-period="monthly">Monthly</button>
+    <!-- task lists -->
+    <div class="dashboard-grid">
+      <div class="card">
+        <h4 style="margin-top:0">Daily Tasks</h4>
+        <ul id="daily-tasks" class="task-list"></ul>
       </div>
 
-      <div class="small-muted" style="margin-top:12px">
-        Selected: <strong id="selectedLabel">Daily</strong>
+      <div class="card">
+        <h4 style="margin-top:0">Weekly Tasks</h4>
+        <ul id="weekly-tasks" class="task-list"></ul>
+      </div>
+
+      <div class="card" style="grid-column: 1 / -1">
+        <h4 style="margin-top:0">Monthly Tasks</h4>
+        <ul id="monthly-tasks" class="task-list"></ul>
       </div>
     </div>
-  </div>    
-  </body>
-  </html>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

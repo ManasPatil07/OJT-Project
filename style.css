@@ -1,123 +1,259 @@
 
-    :root {
-      --primary: #4CAF50;
-      --bg: linear-gradient(180deg,#071021,#0b1226);
-      --card-bg: #172033;
-      --muted: #94a3b8;
-      --text: #ffffff;
-    }
+:root {
+  --primary: #4CAF50;
+  --accent:  #38bdf8;
+  --bg:      #0b1220;
+  --card:    #172033;
+  --muted:   #94a3b8;
+  --text:    #e6eef6;
+}
 
-    html, body {
-      margin: 0;
-      padding: 20px;
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
+/* -------------------------
+   Global / Reset
+   ------------------------- */
+* {
+  box-sizing: border-box;
+}
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
+body {
+  font-family: Inter, system-ui, Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  color: var(--text);
+  /* subtle vertical gradient background */
+  background: linear-gradient(180deg, #071021, #0b1226);
+}
 
-    .header {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 12px;
-    }
+/* container to limit width */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-    .logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 8px;
-      object-fit: cover;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 6px;
-    }
+/* Headings and small text */
+h1 {
+  color: var(--primary);
+  text-align: center;
+  margin: 6px 0 12px 0;
+}
 
-    h1 {
-      margin: 0;
-      font-size: 1.1rem;
-      color: var(--primary);
-    }
+.small-muted {
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 12px;
+}
 
-    .subtitle {
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
+/* -------------------------
+   Card component
+   ------------------------- */
+.card {
+  background: var(--card);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: transform .15s ease;
+}
 
-    /* Top navigation (simple) */
-    .top-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
+.card:hover {
+  transform: translateY(-2px);
+}
 
-    .nav-left {
-      display: flex;
-      gap: 8px;
-    }
+/* -------------------------
+   Forms / Inputs / Buttons
+   ------------------------- */
+.form-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
 
-    .nav-button {
-      padding: 8px 12px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.03);
-      color: var(--muted);
-      cursor: pointer;
-      font-weight: 600;
-    }
+.form-row input[type="text"],
+.form-row select,
+.form-row input[type="date"],
+.form-row input[type="time"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+  color: inherit;
+  flex: 1;
+  outline: none;
+}
 
-    .nav-button.active {
-      background: linear-gradient(90deg, rgba(76,175,80,0.12), rgba(56,189,248,0.06));
-      color: var(--primary);
-      font-weight: 700;
-    }
+/* Primary button */
+.btn {
+  background: linear-gradient(90deg, var(--primary), #8bc34a);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
 
+/* Delete button */
+.btn-delete {
+  background: #ef4444;
+  padding: 6px 10px;
+  border-radius: 7px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
 
-    .card {
-      background: var(--card-bg);
-      border-radius: 10px;
-      padding: 20px;
-      border: 1px solid rgba(255,255,255,0.04);
-      text-align: center;
-    }
+/* -------------------------
+   Visualization area
+   ------------------------- */
+.visualization-area {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
 
-    .periods {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-top: 14px;
-    }
+/* -------------------------
+   Timeline controls & slots
+   ------------------------- */
+.timeline-wrap {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
 
-    .period-button {
-      padding: 10px 16px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.03);
-      cursor: pointer;
-      font-weight: 700;
-      color: var(--muted);
-    }
+.timeline-controls {
+  min-width: 220px;
+}
 
-    .period-button.active {
-      background: linear-gradient(90deg, rgba(76,175,80,0.14), rgba(56,189,248,0.06));
-      color: var(--primary);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-    }
+/* Period buttons (Daily/Weekly/Monthly, Clear etc.) */
+.period-btn {
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  color: var(--muted);
+}
 
-    .small-muted {
-      color: var(--muted);
-      margin-top: 10px;
-      font-size: 0.9rem;
-    }
+/* Active period button style */
+.period-btn.active {
+  background: linear-gradient(90deg, rgba(76, 175, 80, 0.12), rgba(56, 189, 248, 0.06));
+  color: var(--primary);
+  font-weight: 700;
+}
 
+/* slot (individual timeline bucket) */
+.slots {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-    .view, .dashboard-grid, .timeline-wrap, .analytics-grid {
-      display: none !important;
-    }
+.slot {
+  min-width: 110px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease;
+}
+
+/* active slot highlight */
+.slot.active {
+  background: linear-gradient(90deg, #065f46, #075985);
+  color: white;
+  transform: translateY(-4px);
+}
+
+/* -------------------------
+   Dashboard grid & Task lists
+   ------------------------- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* make grid single column on small screens */
+@media (max-width: 900px) {
+  .visualization-area { grid-template-columns: 1fr; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+/* task list container */
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 360px;
+  overflow: auto;
+}
+
+/* single task item */
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* left column (name + meta) */
+.task-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* clickable task name */
+.task-name {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* muted metadata (type / due date) */
+.task-meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* right column (created date + delete) */
+.task-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* slightly faded when completed */
+.task-item[style*="opacity: 0.7"] {
+  /* maintained for visual parity when JS sets inline opacity */
+}
+
+/* -------------------------
+   D3 progress bar
+   ------------------------- */
+#d3-progress-bar {
+  width: 100%;
+  height: 48px;
+  display: block;
+}
+
+/* -------------------------
+   Helpers / small utilities
+   ------------------------- */
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.controls-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
