@@ -1,14 +1,3 @@
-/*
-  Fancy Task Manager — script.js
-  Day-by-day milestones included below (Day 1 through Day 6)
-  - Day 1: Base UI wiring, localStorage persistence, add/toggle/delete tasks
-  - Day 2: Timeline slots for daily/weekly/monthly and slot-based filtering
-  - Day 3: D3 progress bar (svg) + sample tasks bootstrapping
-  - Day 4: Plotly pie and bar charts showing distribution and completion rates
-  - Day 5: Jump-to-today, Clear filter, responsive redraw on resize
-  - Day 6: Sorting, grouping, and small UX improvements (default midday for date-only tasks)
-*/
-
 (function(){
     const STORAGE_KEY = 'fancy_task_dashboard_v2';
     let tasks = load();
