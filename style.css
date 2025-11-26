@@ -8,9 +8,6 @@
   --text:    #e6eef6;
 }
 
-/* -------------------------
-   Global / Reset
-   ------------------------- */
 * {
   box-sizing: border-box;
 }
@@ -230,9 +227,7 @@ h1 {
 }
 
 /* slightly faded when completed */
-.task-item[style*="opacity: 0.7"] {
-  /* maintained for visual parity when JS sets inline opacity */
-}
+
 
 /* -------------------------
    D3 progress bar
@@ -257,3 +252,12 @@ h1 {
   align-items: center;
   margin-bottom: 10px;
 }
+.logo {
+      width: 100px;
+      height: 75px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 6px;
+    }
