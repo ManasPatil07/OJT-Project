@@ -13,6 +13,7 @@
 </head>
 <body>
   <div class="container">
+    <img class="logo" src="logo (1).jpeg" alt="App Logo">
     <h1>Task Manager</h1>
     <div class="small-muted">Design your task with Task Up</div>
 
@@ -20,7 +21,6 @@
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <h3 style="margin:0">Add New Task</h3>
-        <div class="muted">Click task name to toggle complete</div>
       </div>
 
       <form id="task-form" class="form-row" onsubmit="return false;">
@@ -34,7 +34,7 @@
         <input id="task-time" type="time" title="Due time (optional — used for daily slots)" />
         <button id="add-btn" class="btn">Add</button>
       </form>
-      <div style="margin-top:10px" class="muted">Due date/time are optional — if provided they determine which timeline slot the task appears in.</div>
+      
     </div>
 
     <!-- timeline + charts -->
@@ -56,8 +56,6 @@
           <button id="clear-filter" class="period-btn">Clear Filter</button>
           <button id="jump-today" class="period-btn">Jump to Today</button>
         </div>
-
-        <div style="margin-top:14px" class="muted">Click a slot to filter tasks for that slot. For weekly/monthly the slot is computed from the due date.</div>
       </div>
 
       <!-- charts -->

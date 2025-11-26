@@ -17,11 +17,17 @@
     const clearFilterBtn = document.getElementById('clear-filter');
     const jumpTodayBtn = document.getElementById('jump-today');
   
-    function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); }
+    function save(){ 
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+   }
     function load(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e){console.error(e); return [];} }
-    function uid(){ return 't'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+    function uid(){
+       return 't'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+   }
     function isoCombine(dateStr, timeStr){
-      if(!dateStr) return null;
+      if(!dateStr) {
+        return null
+      };
       if(timeStr) return new Date(dateStr + 'T' + timeStr);
       return new Date(dateStr + 'T12:00');
     }
@@ -44,12 +50,14 @@
     function toggleComplete(id){
       const t = tasks.find(x=>x.id===id); if(!t) return;
       t.completed = !t.completed;
-      save(); renderAll();
+      save();
+      renderAll();
     }
     function deleteTask(id){
       if(!confirm('Delete this task?')) return;
       tasks = tasks.filter(x=>x.id!==id);
-      save(); renderAll();
+      save(); 
+      renderAll();
     }
   
     function getSlotsForPeriod(period){
