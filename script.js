@@ -131,10 +131,21 @@
       left.appendChild(name); left.appendChild(meta);
   
       const right = document.createElement('div'); right.className='task-right';
+      // overdue detection: not completed, has a due date, and due < now
+      const now = new Date();
+      const isOverdue = !t.completed && t.due && (new Date(t.due) < now);
+
+      if(isOverdue){
+        const badge = document.createElement('span');
+        badge.className = 'badge overdue';
+        badge.textContent = 'OVERDUE';
+        right.appendChild(badge);
+      }
+
       const created = document.createElement('small'); created.className='muted'; created.textContent = new Date(t.createdAt).toLocaleDateString();
       const del = document.createElement('button'); del.className='btn-delete'; del.textContent='Delete';
       del.onclick = ()=> deleteTask(t.id);
-  
+
       right.appendChild(created); right.appendChild(del);
   
       li.appendChild(left); li.appendChild(right);
