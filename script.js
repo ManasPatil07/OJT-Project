@@ -84,7 +84,12 @@
   function toggleComplete(id) {
     const t = tasks.find((x) => x.id === id);
     if (!t) return;
-    t.completed = !t.completed;
+    const willComplete = !t.completed;
+    if (willComplete && isTaskOverdue(t)) {
+      alert("Cannot mark an overdue task as completed");
+      return;
+    }
+    t.completed = willComplete;
     saveTasks();
     renderAll();
   }
@@ -395,6 +400,40 @@
     });
   }
 
+    function drawStatusPies(m) {
+      const now = new Date();
+      function countsFor(period) {
+        const list = tasks.filter((t) => t.type === period);
+        const total = list.length;
+        let completed = 0;
+        let overdue = 0;
+        list.forEach((t) => {
+          if (t.completed) completed++;
+          else if (t.due && new Date(t.due) < now) overdue++;
+        });
+        const incomplete = total - completed - overdue;
+        return { total, completed, incomplete, overdue };
+      }
+
+      const daily = countsFor("daily");
+      const weekly = countsFor("weekly");
+      const monthly = countsFor("monthly");
+
+      function renderPieInto(id, counts) {
+        const container = document.querySelector(id);
+        if (!container) return;
+        let div = container.querySelector(".plotly-status");
+        if (!div) { div = document.createElement("div"); div.className = "plotly-status"; div.style.height = "100%"; container.appendChild(div); }
+        const data = [{ values: [counts.completed, counts.incomplete, counts.overdue], labels: ["Completed", "Incomplete", "Overdue"], type: "pie", marker: { colors: ["#10B981", "#60A5FA", "#EF4444"] }, textinfo: "label+value", textposition: "inside" }];
+        const layout = { margin: { t: 8, b: 8, l: 8, r: 8 }, height: 220, paper_bgcolor: getComputedStyle(document.body).backgroundColor, font: { color: "#e6eef6" } };
+        Plotly.newPlot(div, data, layout, { responsive: true, displayModeBar: false });
+      }
+
+      renderPieInto("#pie-daily-status", daily);
+      renderPieInto("#pie-weekly-status", weekly);
+      renderPieInto("#pie-monthly-status", monthly);
+    }
+
   function drawBarTo(containerSelector, m) {
     const container =
       typeof containerSelector === "string"
@@ -448,6 +487,7 @@
     // Pie and bar still show the overall breakdown
     drawPieTo("#pie-chart-plot", m);
     drawBarTo("#bar-chart-plot", m);
+    drawStatusPies(m);
     highlightPeriodButtons();
   }
 
@@ -616,10 +656,16 @@
     const left = document.createElement("div");
     left.className = "charts-left";
     left.innerHTML =
-      '<div id="overlay-progress" class="overlay-progress"></div><div id="overlay-bar" class="overlay-bar"></div>';
+      '<div id="overlay-progress" class="overlay-progress"></div>' +
+      '<div id="overlay-bar" class="overlay-bar"></div>' +
+      '<div class="left-pies" style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap">' +
+      '  <div class="status-pie-card card" style="flex:1 1 0"><h4 style="margin:8px 8px 0 8px">Daily Status</h4><div id="pie-daily-status" style="height:240px"></div></div>' +
+      '  <div class="status-pie-card card" style="flex:1 1 0"><h4 style="margin:8px 8px 0 8px">Weekly Status</h4><div id="pie-weekly-status" style="height:240px"></div></div>' +
+      '  <div class="status-pie-card card" style="flex:1 1 0"><h4 style="margin:8px 8px 0 8px">Monthly Status</h4><div id="pie-monthly-status" style="height:240px"></div></div>' +
+      '</div>';
     const right = document.createElement("div");
     right.className = "charts-right";
-    right.innerHTML = '<div id="overlay-pie" class="overlay-pie"></div>';
+    right.innerHTML = '<div class="overall-card card"><h4 style="margin:8px 8px 0 8px">Overall Breakdown</h4><div id="overlay-pie" class="overlay-pie overall-pie"></div></div>';
     grid.appendChild(left);
     grid.appendChild(right);
     panel.appendChild(header);
@@ -630,6 +676,7 @@
     drawD3ProgressTo("#overlay-progress", m);
     drawBarTo("#overlay-bar", m);
     drawPieTo("#overlay-pie", m);
+    drawStatusPies(m);
   }
 
   window.showChartsPage = showChartsPage;

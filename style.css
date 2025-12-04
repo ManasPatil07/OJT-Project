@@ -310,37 +310,64 @@ h1 {
 }
 
 .charts-panel {
-  width: min(1100px, 96%);
-  max-height: 92%;
+  width: min(1280px, 98%);
+  max-height: 94%;
   overflow: auto;
-  padding: 18px;
+  padding: 20px;
+  background: var(--card);
+  box-shadow: 0 24px 70px rgba(2,6,23,0.7);
+  border-radius: 14px;
 }
 
 .charts-grid {
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 18px;
+  grid-template-columns: 1fr 540px;
+  gap: 22px;
   align-items: start;
 }
 
 .charts-left {
   min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .charts-right {
   min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .overlay-progress svg {
   width: 100%;
-  height: 72px;
+  height: 96px;
   display: block;
 }
 
 .overlay-pie {
   width: 100%;
   height: 260px;
+  border-radius: 10px;
+  padding: 6px;
+  background: transparent;
 }
+
+.overlay-pie.overall-pie {
+  height: 420px;
+}
+
+.left-pies {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+.left-pies .status-pie-card { flex: 1 1 0; max-width: 33.333%; min-width: 0; }
+.left-pies .status-pie-card .plotly-status,
+.left-pies .status-pie-card > div { height: 240px !important; }
 
 .overlay-bar {
   width: 100%;
@@ -534,4 +561,37 @@ h1 {
 .charts-header h3 {
   margin: 0;
   font-size: 18px;
+}
+
+/* status pies layout: place three pies horizontally and keep responsive */
+.status-pies {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  align-items: stretch;
+}
+.status-pie-card {
+  flex: 1 1 0;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.status-pie-card h4 {
+  margin: 6px 8px 6px 8px;
+  font-size: 14px;
+}
+.status-pie-card > div {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .status-pies {
+    flex-direction: column;
+  }
+  .left-pies { flex-wrap: wrap; }
+  .left-pies .status-pie-card { max-width: 100%; flex: 1 1 100%; }
 }
