@@ -339,7 +339,7 @@
       .attr("ry", 10)
       .attr("width", 0)
       .attr("height", height)
-      .attr("fill", "#ef4444")
+      .attr("fill", "#44ef7aff")
       .transition()
       .duration(700)
       .attr("width", width * p);
